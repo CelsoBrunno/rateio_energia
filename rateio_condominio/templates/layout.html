@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Condomínio Black Falcon{% endblock %} - Rateio de Energia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+      .table th.text-end, .table td.text-end { text-align: right !important; }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top site-header"> <div class="container">
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+            <i class="bi bi-building-fill"></i> Black Falcon Rateio
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" aria-current="page" href="{{ url_for('dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.endpoint == 'novo_rateio' %}active{% endif %}" href="{{ url_for('novo_rateio') }}"><i class="bi bi-plus-circle-fill"></i> Novo Rateio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.endpoint == 'historico' %}active{% endif %}" href="{{ url_for('historico') }}"><i class="bi bi-archive-fill"></i> Histórico</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="container mt-4 mb-5 site-main-content"> {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer"> <div class="container text-center py-4">
+        <p class="mb-0">&copy; Condomínio Black Falcon {{ now.year if now else '' }} - Desenvolvido para o Síndico Fábio Silva.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

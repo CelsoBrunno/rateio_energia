@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Novo Rateio de Energia{% endblock %}
+
+{% block content %}
+<h2><i class="bi bi-file-earmark-plus-fill text-primary"></i> Lançar Nova Conta/Rateio Mensal</h2>
+<hr>
+
+<form method="POST" action="{{ url_for('novo_rateio') }}">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label for="mes_referencia" class="form-label">Mês de Referência</label>
+            <input type="number" class="form-control" id="mes_referencia" name="mes_referencia" min="1" max="12" value="{{ form_data.get('mes_referencia', now.month) }}" required>
+        </div>
+        <div class="col-md-4">
+            <label for="ano_referencia" class="form-label">Ano de Referência</label>
+            <input type="number" class="form-control" id="ano_referencia" name="ano_referencia" min="2020" max="2050" value="{{ form_data.get('ano_referencia', now.year) }}" required>
+        </div>
+        <div class="col-md-4">
+            <label for="valor_total_reais" class="form-label">Valor Total da Conta (R$)</label>
+            <input type="number" step="0.01" class="form-control" id="valor_total_reais" name="valor_total_reais" value="{{ form_data.get('valor_total_reais', '') }}" required>
+        </div>
+    </div>
+
+    <h4 class="mt-4">Leituras / Consumos Individuais em kWh:</h4>
+    <div class="row g-3">
+        {% for unidade in unidades %}
+        <div class="col-md-6 col-lg-4">
+            {% if unidade.tipo == 'casa' %}
+                <label for="input_unidade_{{ unidade.id }}" class="form-label">{{ unidade.nome }} - Leitura Atual do Medidor (kWh)</label>
+                <input type="number" step="0.01" class="form-control" id="input_unidade_{{ unidade.id }}" name="input_unidade_{{ unidade.id }}" 
+                       placeholder="Última: {{ ultimas_leituras.get(unidade.id, 0) }}" 
+                       value="{{ request.form.get('input_unidade_' + unidade.id|string, '') }}" required>
+                <div class="form-text">Leitura anterior registrada: {{ ultimas_leituras.get(unidade.id, 0) }} kWh</div>
+            {% elif unidade.tipo == 'salao_festas' %}
+                <label for="input_unidade_{{ unidade.id }}" class="form-label">{{ unidade.nome }} - Consumo Total (kWh)</label>
+                <input type="number" step="0.01" class="form-control" id="input_unidade_{{ unidade.id }}" name="input_unidade_{{ unidade.id }}" 
+                       value="{{ request.form.get('input_unidade_' + unidade.id|string, '') }}" required>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary btn-lg"><i class="bi bi-calculator-fill"></i> Calcular e Salvar Rateio</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg"><i class="bi bi-x-circle-fill"></i> Cancelar</a>
+    </div>
+</form>
+{% endblock %}

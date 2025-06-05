@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block title %}Detalhes do Rateio - {{ "%02d"|format(conta.mes_referencia) }}/{{ conta.ano_referencia }}{% endblock %}
+
+{% block content %}
+<h2><i class="bi bi-receipt-cutoff text-primary"></i> Detalhes do Rateio - {{ "%02d"|format(conta.mes_referencia) }}/{{ conta.ano_referencia }}</h2>
+<hr>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Informações Gerais da Conta</strong>
+    </div>
+    <div class="card-body">
+        <p><strong>Mês/Ano de Referência:</strong> {{ "%02d"|format(conta.mes_referencia) }}/{{ conta.ano_referencia }}</p>
+        <p><strong>Valor Total da Conta da Concessionária:</strong> R$ {{ "%.2f"|format(conta.valor_total_reais)|replace('.', ',') }}</p>
+        <p><strong>Consumo Total Interno (Casas + Salão):</strong> {{ "%.2f"|format(conta.consumo_total_interno_kwh or 0)|replace('.', ',') }} kWh</p>
+        <p><strong>Custo Médio por kWh:</strong> R$ {{ "%.4f"|format(conta.custo_medio_kwh or 0)|replace('.', ',') }} / kWh</p>
+        <p><strong>Data de Lançamento no Sistema:</strong> {{ conta.data_lancamento.strftime('%d/%m/%Y %H:%M:%S') if conta.data_lancamento else 'N/A' }}</p>
+    </div>
+</div>
+
+{% if detalhe_salao %}
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Detalhes do Salão de Festas</strong>
+    </div>
+    <div class="card-body">
+        <p><strong>Consumo Informado do Salão:</strong> {{ "%.2f"|format(detalhe_salao.consumo_kwh or 0)|replace('.', ',') }} kWh</p>
+        <p><strong>Custo Total do Salão (Consumo * Custo kWh):</strong> R$ {{ "%.2f"|format(conta.custo_total_salao_reais or 0)|replace('.', ',') }}</p>
+        <p><strong>Cota-Parte do Salão por Casa (Custo Salão / 10):</strong> R$ {{ "%.2f"|format(conta.cota_salao_por_casa_reais or 0)|replace('.', ',') }}</p>
+    </div>
+</div>
+{% endif %}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Rateio por Unidade Residencial (Casa)</strong>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Unidade</th>
+                        <th class="text-end">Leitura Anterior (kWh)</th>
+                        <th class="text-end">Leitura Atual (kWh)</th>
+                        <th class="text-end">Consumo Calculado (kWh)</th>
+                        <th class="text-end">Custo Base (R$)</th>
+                        <th class="text-end">Cota Salão (R$)</th>
+                        <th class="text-end">Valor Final (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for casa in detalhes_casas %}
+                    <tr>
+                        <td>{{ casa.unidade_nome }}</td>
+                        <td class="text-end">{{ "%.2f"|format(casa.leitura_anterior_kwh or 0)|replace('.', ',') }}</td>
+                        <td class="text-end">{{ "%.2f"|format(casa.leitura_atual_kwh or 0)|replace('.', ',') }}</td>
+                        <td class="text-end">{{ "%.2f"|format(casa.consumo_kwh or 0)|replace('.', ',') }}</td>
+                        <td class="text-end">{{ "%.2f"|format(casa.custo_direto_reais or 0)|replace('.', ',') }}</td>
+                        <td class="text-end">{{ "%.2f"|format(conta.cota_salao_por_casa_reais or 0)|replace('.', ',') }}</td>
+                        <td class="text-end"><strong>{{ "%.2f"|format(casa.valor_final_reais or 0)|replace('.', ',') }}</strong></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">Nenhum detalhe de casa encontrado para este rateio.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="table-group-divider">
+                        <td colspan="6" class="text-end"><strong>SOMA DE VERIFICAÇÃO (Total a Pagar Casas):</strong></td>
+                        <td class="text-end"><strong>R$ {{ "%.2f"|format(soma_verificacao or 0)|replace('.', ',') }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-end fw-bold text-success">VALOR TOTAL DA CONTA ORIGINAL:</td>
+                        <td class="text-end fw-bold text-success">R$ {{ "%.2f"|format(conta.valor_total_reais)|replace('.', ',') }}</td>
+                    </tr>
+                     <tr>
+                        <td colspan="6" class="text-end">Diferença (arredondamento):</td>
+                        <td class="text-end">R$ {{ "%.2f"|format(conta.valor_total_reais - soma_verificacao)|replace('.', ',') }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('historico') }}" class="btn btn-secondary"><i class="bi bi-arrow-left-circle-fill"></i> Voltar ao Histórico</a>
+    <form method="POST" action="{{ url_for('excluir_rateio', id_rateio=conta.id) }}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este rateio? Esta ação não pode ser desfeita.');">
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Excluir Rateio</button>
+    </form>
+</div>
+{% endblock %}

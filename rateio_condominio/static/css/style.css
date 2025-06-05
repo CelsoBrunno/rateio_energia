@@ -1,0 +1,271 @@
+/* CSS Custom Properties (Variáveis) */
+:root {
+    --primary-color: #0A2E5B;   /* Azul Marinho Escuro (do site de referência) */
+    --secondary-color: #B08D57; /* Dourado/Bronze Escuro (do site de referência) */
+    --light-bg-color: #f4f7f6;  /* Cinza muito claro para fundos */
+    --white-color: #ffffff;
+    --dark-text-color: #383838; /* Cinza escuro para texto */
+    --light-text-color: #f8f9fa;/* Texto claro para fundos escuros */
+    --border-color: #dee2e6;    /* Cor de borda sutil */
+
+    --font-primary: 'Montserrat', sans-serif;
+    --font-secondary: 'Open Sans', sans-serif;
+
+    --default-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilos Globais */
+body {
+    font-family: var(--font-secondary);
+    color: var(--dark-text-color);
+    background-color: var(--light-bg-color);
+    padding-top: 80px; /* Espaço para a navbar fixa */
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 600; /* Títulos um pouco mais fortes */
+    color: var(--primary-color); /* Títulos com a cor primária */
+    margin-bottom: 0.75rem;
+}
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.5rem; }
+
+a {
+    color: var(--secondary-color); /* Links com a cor de acento */
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+a:hover {
+    color: darken(var(--secondary-color), 10%);
+    text-decoration: none;
+}
+
+/* Header (Navbar) */
+.site-header {
+    background-color: var(--primary-color) !important; /* Sobrescreve bg-dark do Bootstrap */
+    padding: 0.8rem 0;
+    box-shadow: var(--default-shadow);
+}
+.site-header .navbar-brand {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1.6rem; /* Tamanho maior para a marca */
+    color: var(--white-color);
+}
+.site-header .navbar-brand:hover {
+    color: var(--secondary-color);
+}
+.site-header .nav-link {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8); /* Branco com leve transparência */
+    padding: 0.5rem 1rem;
+    transition: color 0.2s ease;
+}
+.site-header .nav-link:hover,
+.site-header .nav-link.active {
+    color: var(--white-color);
+    /* Para o link ativo, podemos adicionar um sublinhado dourado discreto */
+}
+.site-header .nav-link.active {
+     border-bottom: 2px solid var(--secondary-color); /* Destaque para o link ativo */
+}
+
+
+/* Conteúdo Principal */
+.site-main-content {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* Cards */
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem; /* Cantos um pouco mais suaves */
+    box-shadow: var(--default-shadow);
+    transition: box-shadow 0.3s ease-in-out;
+    background-color: var(--white-color);
+    margin-bottom: 1.5rem;
+}
+.card:hover {
+    box-shadow: var(--hover-shadow);
+}
+.card-header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-family: var(--font-primary);
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid darken(var(--primary-color), 5%);
+    border-top-left-radius: calc(0.3rem - 1px); /* Ajuste para borda interna */
+    border-top-right-radius: calc(0.3rem - 1px);
+}
+.card-header h1, .card-header h2, .card-header h3, .card-header h4, .card-header h5, .card-header h6 {
+    color: var(--white-color); /* Títulos no card-header também brancos */
+    margin-bottom: 0;
+    font-size: 1.2rem;
+}
+
+/* Botões */
+.btn {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    letter-spacing: 0.5px;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white-color);
+}
+.btn-primary:hover {
+    background-color: var(--primary-color), 100%;
+    border-color: darken(var(--primary-color), 10%);
+    color: var(--dark-text-color);
+    transform: translateY(-2px); /* Efeito sutil de elevação */
+    box-shadow: var(--hover-shadow);
+}
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--white-color);
+}
+.btn-secondary:hover {
+    background-color: darken(var(--secondary-color), 10%);
+    border-color: darken(var(--secondary-color), 10%);
+    color: var(--dark-text-color);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+.btn-danger { /* Mantendo a cor padrão do Bootstrap para perigo, mas ajustando o estilo */
+    color: var(--white-color);
+}
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+.btn-info { /* Ajustando para usar o dourado como cor informativa/de visualização */
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--dark-text-color); /* Texto escuro para melhor contraste no dourado */
+}
+.btn-info:hover {
+    background-color: darken(var(--secondary-color), 5%);
+    border-color: darken(var(--secondary-color), 5%);
+    color: var(--dark-text-color);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+
+/* Tabelas */
+.table {
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem; /* Adicionar borda arredondada à tabela também */
+    overflow: hidden; /* Para o border-radius funcionar com o cabeçalho */
+}
+.table thead th {
+    font-family: var(--font-primary);
+    background-color: var(--light-bg-color); /* Cabeçalho da tabela mais claro */
+    color: var(--primary-color); /* Texto do cabeçalho da tabela com cor primária */
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color); /* Borda mais grossa abaixo do cabeçalho */
+    padding: 0.9rem;
+    vertical-align: middle;
+}
+.table tbody tr:hover {
+    background-color: #eef3f7; /* Um azul muito claro para hover, ou mantenha o cinza */
+    /* background-color: #fdf8f0; Um bege/dourado muito claro para hover */
+}
+.table td {
+    padding: 0.9rem;
+    vertical-align: middle;
+}
+
+/* Formulários */
+.form-label {
+    font-weight: 600;
+    font-family: var(--font-primary);
+    margin-bottom: 0.3rem;
+    color: var(--primary-color);
+}
+.form-control, .form-select {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--secondary-color); /* Destaque dourado ao focar */
+    box-shadow: 0 0 0 0.2rem rgba(176, 141, 87, 0.25); /* Sombra dourada suave */
+}
+.form-text {
+    font-size: 0.85em;
+    color: #6c757d;
+}
+
+/* Alertas */
+.alert {
+    border-left-width: 5px;
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+.alert h4 { /* Se usar títulos dentro de alertas */
+    margin-top: 0;
+    color: inherit; /* Herda a cor do texto do alerta */
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--dark-text-color); /* Um cinza bem escuro para o rodapé */
+    color: rgba(255, 255, 255, 0.7);
+    padding: 2rem 0;
+    font-family: var(--font-secondary);
+    font-size: 0.9em;
+}
+.site-footer p {
+    margin-bottom: 0;
+}
+
+/* Classes utilitárias específicas */
+.text-primary-color { color: var(--primary-color) !important; }
+.text-secondary-color { color: var(--secondary-color) !important; }
+.bg-primary-color { background-color: var(--primary-color) !important; }
+.bg-secondary-color { background-color: var(--secondary-color) !important; }
+
+/* Efeito de elevação para os ícones nos títulos principais das páginas */
+h2 > i.bi {
+    margin-right: 0.5rem;
+    position: relative;
+    top: -2px;
+}
+
+/* Ajustes para ícones em botões */
+.btn i.bi {
+    margin-right: 0.3rem;
+    font-size: 0.95em; /* Levemente menor para caber melhor */
+    position: relative;
+    top: -1px;
+}
+
+.site-jumbotron {
+    background-color: var(--white-color); /* Ou um cinza bem claro var(--light-bg-color) */
+    border: 1px solid var(--border-color);
+}
+.site-jumbotron h1 {
+    color: var(--primary-color); /* Título do jumbotron na cor primária */
+}
+.site-jumbotron h1 i.bi { /* Ícone do jumbotron na cor secundária (dourado) */
+    color: var(--secondary-color) !important;
+}
+
+.mt-3 {
+    margin-top: 0rem!important;
+}

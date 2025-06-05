@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 rounded-3 card site-jumbotron"> <div class="container-fluid py-4">
+      <h1 class="display-5 fw-bold"><i class="bi bi-lightning-charge-fill text-secondary-color"></i> Sistema de Rateio de Energia</h1>
+      <p class="col-md-10 fs-5">
+        Bem-vindo, Síndico Fábio! Use este sistema para gerenciar o rateio da conta de energia do Condomínio Black Falcon de forma eficiente.
+      </p>
+      <a href="{{ url_for('novo_rateio') }}" class="btn btn-primary btn-lg mt-3" type="button"><i class="bi bi-plus-circle-fill"></i> Lançar Novo Rateio</a>
+      <a href="{{ url_for('historico') }}" class="btn btn-info btn-lg mt_3" type="button"><i class="bi bi-archive-fill"></i> Ver Histórico</a>
+    </div>
+</div>
+{% endblock %}
